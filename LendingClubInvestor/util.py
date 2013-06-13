@@ -172,7 +172,7 @@ def post_url(relUrl, params={}, data={}, useCookies=True):
         url = re.sub('([^:])//', '\\1/', url)  # Remove double slashes
         cookies = cookies if useCookies else {}
 
-        logger.debug('POSTING {0}'.format(url))
+        logger.debug('POSTING {0}, params: {1}, data: {0}'.format(url, params, data))
         req = session.post(url, params=params, data=data, cookies=cookies)
         return req
 
