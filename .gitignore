@@ -1,4 +1,4 @@
-.investor
-.investortest
+#.investor
+#.investortest
 daemon.log
-*.pyc
+#*.pyc

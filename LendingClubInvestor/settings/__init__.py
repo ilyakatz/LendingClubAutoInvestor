@@ -210,8 +210,8 @@ class Settings():
         """
         Get the email and password from the user
         """
-        self.auth['email'] = util.prompt('LendingClub email', self.auth['email'])
-        self.auth['pass'] = util.get_password()
+        self.auth['email'] = "ilyakatz@gmail.com"
+        self.auth['pass'] = "youilend1"
         return self.auth
 
     def show_summary(self, title='Summary'):
