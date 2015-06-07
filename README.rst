@@ -53,7 +53,7 @@ Modules
 * `argparse <https://pypi.python.org/pypi/argparse>`_
 * `pyyaml <http://pyyaml.org/wiki/PyYAML>`_
 * `pause <https://github.com/jgillick/python-pause>`_
-* `keyring <https://pypi.python.org/pypi/keyring>`_ (only for Mac OS X)
+* `keyring <https://pypi.python.org/pypi/keyring>`_
 
 These will automatically be installed when using pip.
 
@@ -206,7 +206,8 @@ To see the usage info, type ``lcinvestor --help``::
       -h, --help            show this help message and exit
       --email EMAIL         The email used to login to LendingClub
       --pass pass           Your LendingClub password.
-      --keychain            (MacOS X only) Use MacOS X keychain to store password
+      --secure              Use your system's secure password storage to retrieve
+                            password
       -c CONFIG_FILE, --config CONFIG_FILE
                             A JSON file with the investment settings you want to
                             use.
@@ -287,14 +288,14 @@ Example of the command to call::
 
     lcinvestor --config=./investing.json --email=you@email.com --pass=mysecret --quiet --run-once
 
-Using Mac OS X Keychain for extra security
-------------------------------------------
+Using system keyring service to avoid exposing password
+-------------------------------------------------------
 
-If you prefer to use Mac OS X keychain instead of passing ``--pass`` argument, you can use ``--keychain``.
-In order to use this option, set up a new Keychain Item with Name and Account Name "LendingClub"
+If you prefer to use your system's keychain instead of passing ``--pass`` argument, you can use ``--secure``.
 
-.. image:: keychain.png
-   :target: https://monosnap.com/file/JiMjHItWA2I6kxgMAeGALMobPj3Qbg.png
+On Mac OS X, in order to use this option, set up a new Keychain Item with Name "LendingClub" and Account Name "LendingClubAutoInvestor" (`example <https://monosnap.com/image/uToQGkqTsrBL7PUen9XSoq6muh9ocl.png>`_)
+
+Refer to `this list <https://github.com/jaraco/keyring/#what-is-python-keyring-lib>`_ for a list of supported services
 
 How to schedule a command or task
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
