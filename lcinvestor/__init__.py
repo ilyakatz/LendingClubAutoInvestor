@@ -33,7 +33,7 @@ from lendingclub import LendingClub, LendingClubError
 from lendingclub.filters import *
 from lcinvestor import util
 from lcinvestor.settings import Settings
-
+from sys import platform as _platform
 
 class AutoInvestor:
     """
@@ -45,18 +45,20 @@ class AutoInvestor:
     authed = False
     verbose = False
     settings = None
+    notify = False
     loop = False
     app_dir = None
 
     # The file that the summary from the last investment is saved to
     last_investment_file = 'last_investment.json'
 
-    def __init__(self, verbose=False):
+    def __init__(self, verbose=False, notify=False):
         """
         Create an AutoInvestor instance
          - Set verbose to True if you want to see debugging logs
         """
         self.verbose = verbose
+        self.notify = notify
         self.logger = util.create_logger(verbose)
         self.app_dir = util.get_app_directory()
         self.lc = LendingClub()
@@ -289,6 +291,10 @@ class AutoInvestor:
                         summary = self.get_order_summary(portfolio)
                         self.logger.info(summary)
                         self.logger.info('Done\n')
+
+                        if self.notify and _platform == "darwin":
+                            from pync import Notifier
+                            Notifier.notify(summary, title='LendingClubAutoInvestor')
 
                         self.save_last_investment(cash, portfolio, order_id, portfolio_name=assign_to)
                     else:
