@@ -33,7 +33,7 @@ from lendingclub import LendingClub, LendingClubError
 from lendingclub.filters import *
 from lcinvestor import util
 from lcinvestor.settings import Settings
-
+from sys import platform as _platform
 
 class AutoInvestor:
     """
@@ -46,19 +46,21 @@ class AutoInvestor:
     verbose = False
     auto_execute = True
     settings = None
+    notify = False
     loop = False
     app_dir = None
 
     # The file that the summary from the last investment is saved to
     last_investment_file = 'last_investment.json'
 
-    def __init__(self, verbose=False, auto_execute=True):
+    def __init__(self, verbose=False, auto_execute=True, notify=False):
         """
         Create an AutoInvestor instance
          - Set verbose to True if you want to see debugging logs
         """
         self.verbose = verbose
         self.auto_execute = auto_execute
+        self.notify = notify
         self.logger = util.create_logger(verbose)
         self.app_dir = util.get_app_directory()
         self.lc = LendingClub()
@@ -295,6 +297,10 @@ class AutoInvestor:
                         self.logger.info(summary)
                         self.logger.info('Done\n')
 
+                        if self.notify and _platform == "darwin":
+                            from pync import Notifier
+                            Notifier.notify(summary, title='LendingClubAutoInvestor')
+
                         self.save_last_investment(cash, portfolio, order_id, portfolio_name=assign_to)
                     else:
                         self.logger.warning('No investment portfolios matched your filters at this time -- Trying again in {2} minutes'.format(self.settings['min_percent'], self.settings['max_percent'], self.settings['frequency']))
@@ -378,7 +384,6 @@ class AutoInvestor:
             # Invest
             self.attempt_to_invest()
             pause.minutes(frequency)
-
 
 class AutoInvestorError(Exception):
 
