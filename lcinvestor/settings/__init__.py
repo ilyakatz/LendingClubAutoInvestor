@@ -63,6 +63,7 @@ class Settings():
     # Defines the investment funding settings
     default_investing = {
         'min_cash': 500,
+        'max_cash': 500,
         'min_percent': False,
         'max_percent': False,
         'max_per_note': 25,
