@@ -210,6 +210,10 @@ class AutoInvestor:
 
             # Get current cash balance
             cash = self.lc.get_investable_balance()
+            if cash > self.settings['max_cash']:
+                self.logger.info("Will use max_cash amount")  # Create break in logs
+                cash = self.settings['max_cash']
+
             if cash > 0 and cash >= self.settings['min_cash']:
 
                 # Invest
